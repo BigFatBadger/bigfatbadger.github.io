@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Poiret+One&display=swap" rel="stylesheet">
+    <title>Etch-A-Sketch</title>
+
+</head>
+<body>
+    <div id="title" class="mainHead1">
+        <h1>Etch-A-Sketch</h1>
+    </div>
+    <div id="titleBar" class="mainHead1">
+
+        <div id="input">
+            <label for="userNum">GRID SIZE</label>
+            <input id="userNum">
+            <button id='reset'>Reset</button>
+
+            <div class="dropdown">
+                <select id="myDropdown" class="dropdown-content">
+                    <option value="gridHLblue">Blue</option>
+                    <option value="gridHLgreen">Green</option>
+                    <option value="gridHLpink">Pink</option>
+                    <option value="gridHLpurple">Purple</option>
+                    <option value="gridHLred">Red</option>
+                    <option value="gridHLyellow">Yellow</option>
+                    <option value="gridHLrandom">Random</option>
+                    <option value="gridHLblackish">Blackish</option>
+                </select>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="gameArea">
+        <!-- Grid gets generated here -->
+    </div>
+
+    <script>
+
+        let gmArea = document.getElementById("gameArea");
+        let row;
+        let divCell;
+        let sWidth = 500;
+        let sHeight = 500;
+        gmArea.style.height = sWidth + 'px';
+        gmArea.style.width = sWidth + 'px';
+        let columnString = 'grid-template-columns:';
+        let rowString = 'grid-template-rows:';
+        let goButt = document.getElementById("userNum");
+        let resetButt = document.getElementById("reset");
+        let redVal = document.getElementById("workButt");
+        let colChangeDrop = document.getElementById("myDropdown");
+        let chosenColour = 'grid;';
+        let passColour;
+        
+        document.body.onload = goButt.value = '';
+        document.body.onload = colChangeDrop.value = 'gridHLblue';
+
+        resetButt.onclick = resetGame;
+
+        function resetGame(){
+
+            while (gmArea.lastElementChild){
+                gmArea.removeChild(gmArea.lastElementChild);
+                document.body.onload = goButt.value = '';
+                colChangeDrop.value = 'gridHLblue';
+            }
+
+        }
+
+        goButt.onchange = setUp;
+
+        function setUp(){
+            let err = 0;
+
+            let inputNum = document.getElementById("userNum").value;
+
+            if (inputNum > 10000){
+                let exitMsg = confirm("Yikes, that's a big number. Are you sure? The browser might die.");
+                if (exitMsg == false){
+                    err = 1;
+                }
+            }
+
+            if (err < 1){
+
+            let onePerc = sWidth / 1000;
+            let gridsize = (sHeight / parseInt(Math.ceil(Math.sqrt(inputNum))));
+            let gridHeight = gridsize;
+
+            while (gmArea.lastElementChild){
+                gmArea.removeChild(gmArea.lastElementChild);
+            }
+         
+            for (let i = 1; i<(1 + parseInt(inputNum)); i++){
+                grid = document.createElement('div');
+                grid.id = "grid" + i;
+                grid.className = "grid";
+                columnString +=" 50px";
+                rowString +=" 50px";
+                gmArea.appendChild(grid);
+            }
+
+            let colWidth = (parseInt(Math.ceil(Math.sqrt(inputNum))));
+            gmArea.style.gridTemplateColumns = 'repeat(' + colWidth + ', ' + (gridsize)+ 'px)';
+        }
+        };
+
+        let colArray= ['gridHLblue','gridHLgreen','gridHLpink','gridHLpurple', 'gridHLred','gridHLyellow']
+        
+        gmArea.addEventListener('mouseover', function (e) {
+            chosenColour = colChangeDrop.value;
+            switch(chosenColour){
+                case 'gridHLblue':
+                passColour = 'gridHLblue';
+                break;
+                case 'gridHLgreen':
+                passColour = 'gridHLgreen';
+                break;
+                case 'gridHLpink':
+                passColour = 'gridHLpink';
+                break;
+                case 'gridHLpurple':
+                passColour = 'gridHLpurple';
+                break;
+                case 'gridHLred':
+                passColour = 'gridHLred';
+                break;
+                case 'gridHLyellow':
+                passColour = 'gridHLyellow';
+                break;
+                case 'gridHLrandom':
+                passColour = 'gridHLrandom';
+                break;
+                case 'gridHLblackish':
+                passColour = 'gridHLblackish';
+                break;
+            }
+            if (e.target.id == 'gameArea'){
+                }
+            else if (passColour == 'gridHLrandom'){
+                e.target.className = colArray[Math.round(Math.random() * 5)];
+                }
+            else if (passColour == 'gridHLblackish'){
+                e.target.style.opacity = '0.5';
+                }
+
+                else if (passColour == 'gridHLblackish'){
+                e.target.style.opacity = '0.5';
+                }
+            else if (e.target.className != passColour){
+                e.target.className = passColour;
+                }
+    
+        });
+
+    </script>
+</body>
+</html>
